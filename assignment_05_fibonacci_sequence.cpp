@@ -14,40 +14,58 @@
 // -----------------------------------------------------------------------------
 // PART A — Print the First N Terms
 // -----------------------------------------------------------------------------
-// - Ask the user how many terms (N) to display.
-// - Print the first N numbers of the Fibonacci sequence on one line.
+// - Ask the user how many terms they want.
+// - Print the Fibonacci sequence up to that many terms.
 //
-// Example:
-//   How many terms? 7
-//   Fibonacci sequence: 0 1 1 2 3 5 8
-//
-// -----------------------------------------------------------------------------
-// PART B — Check if a Number Belongs to the Sequence
+// PART B — Check if a Number is in the Sequence
 // -----------------------------------------------------------------------------
 // - Ask the user to enter a number.
-// - Determine whether that number is a Fibonacci number.
-// - Print an appropriate message.
-//
-// Example:
-//   Enter a number to check: 13
-//   13 is a Fibonacci number.
-//
-//   Enter a number to check: 20
-//   20 is NOT a Fibonacci number.
+// - Check if that number appears in the Fibonacci sequence.
+// - Print whether it is or is not a Fibonacci number.
 //
 // -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - Use a loop (not recursion) to generate the sequence in both parts.
-// - N must be a positive integer. If it is not, print an error message.
-// - Each part must be implemented in its own function (see scaffold below).
-//
-
-//
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
 
 #include <iostream>
 using namespace std;
 
+void printFibonacci(int n) {
+    int a = 0, b = 1;
+    cout << "Fibonacci sequence: ";
+    for (int i = 0; i < n; i++) {
+        cout << a;
+        if (i < n - 1) cout << ", ";
+        int next = a + b;
+        a = b;
+        b = next;
+    }
+    cout << endl;
+}
+
+bool isFibonacci(int num) {
+    int a = 0, b = 1;
+    while (a < num) {
+        int next = a + b;
+        a = b;
+        b = next;
+    }
+    return a == num;
+}
+
+int main() {
+    int n;
+    cout << "Enter how many terms of Fibonacci to print: ";
+    cin >> n;
+    printFibonacci(n);
+
+    int num;
+    cout << "\nEnter a number to check if it is a Fibonacci number: ";
+    cin >> num;
+
+    if (isFibonacci(num)) {
+        cout << num << " is a Fibonacci number." << endl;
+    } else {
+        cout << num << " is not a Fibonacci number." << endl;
+    }
+
+    return 0;
+}
