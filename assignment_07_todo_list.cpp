@@ -21,62 +21,95 @@
 //
 //   3. Delete a Task
 //      - Show the list of tasks with their numbers.
-//      - Ask the user which task number they want to remove.
-//      - Remove the task and confirm the deletion.
-//      - If the task number is invalid, print an error message.
+//      - Ask the user which number to delete and remove it.
 //
-//   4. Quit
-//      - End the program with a farewell message.
+//   4. Exit
+//      - Exit the program cleanly.
 //
 // -----------------------------------------------------------------------------
-// HOW THE MENU SHOULD LOOK
-// -----------------------------------------------------------------------------
-//
-//   ============================
-//        TO-DO LIST MENU
-//   ============================
-//   1. Add task
-//   2. View tasks
-//   3. Delete task
-//   4. Quit
-//   Enter your choice (1-4):
-//
-// -----------------------------------------------------------------------------
-// EXPECTED INTERACTION EXAMPLE
-// -----------------------------------------------------------------------------
-//
-//   Enter your choice (1-4): 1
-//   Enter task: Buy groceries
-//   Task added: "Buy groceries"
-//
-//   Enter your choice (1-4): 2
-//   Your Tasks:
-//   1. Buy groceries
-//   2. Study for exams
-//
-//   Enter your choice (1-4): 3
-//   Enter task number to delete: 1
-//   Task "Buy groceries" has been removed.
-//
-//   Enter your choice (1-4): 4
-//   Goodbye!
-//
-// -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - Store tasks in a vector<string> (a dynamic list of text).
-// - Use a loop to keep the menu running until the user chooses to quit.
-// - Each feature MUST be implemented in its own function (see scaffold below).
-// - Handle invalid menu choices gracefully (print an error, do not crash).
-//
-
-//
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
 
 #include <iostream>
-#include <vector>
 #include <string>
 using namespace std;
 
+const int MAX_TASKS = 100;
+string tasks[MAX_TASKS];
+int taskCount = 0;
+
+void addTask() {
+    if (taskCount >= MAX_TASKS) {
+        cout << "Task list is full!" << endl;
+        return;
+    }
+    string task;
+    cout << "Enter task description: ";
+    cin.ignore();
+    getline(cin, task);
+    tasks[taskCount] = task;
+    taskCount++;
+    cout << "Task added successfully!" << endl;
+}
+
+void viewTasks() {
+    if (taskCount == 0) {
+        cout << "Your to-do list is empty." << endl;
+        return;
+    }
+    cout << "\n--- Your Tasks ---" << endl;
+    for (int i = 0; i < taskCount; i++) {
+        cout << (i + 1) << ". " << tasks[i] << endl;
+    }
+    cout << "------------------" << endl;
+}
+
+void deleteTask() {
+    if (taskCount == 0) {
+        cout << "No tasks to delete." << endl;
+        return;
+    }
+    viewTasks();
+    int num;
+    cout << "Enter task number to delete: ";
+    cin >> num;
+
+    if (num < 1 || num > taskCount) {
+        cout << "Invalid task number." << endl;
+        return;
+    }
+
+    for (int i = num - 1; i < taskCount - 1; i++) {
+        tasks[i] = tasks[i + 1];
+    }
+    taskCount--;
+    cout << "Task deleted successfully!" << endl;
+}
+
+int main() {
+    int choice;
+
+    cout << "=== To-Do List ===" << endl;
+
+    do {
+        cout << "\n1. Add Task" << endl;
+        cout << "2. View Tasks" << endl;
+        cout << "3. Delete Task" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            addTask();
+        } else if (choice == 2) {
+            viewTasks();
+        } else if (choice == 3) {
+            deleteTask();
+        } else if (choice == 4) {
+            cout << "Goodbye!" << endl;
+        } else {
+            cout << "Invalid choice. Please try again." << endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
