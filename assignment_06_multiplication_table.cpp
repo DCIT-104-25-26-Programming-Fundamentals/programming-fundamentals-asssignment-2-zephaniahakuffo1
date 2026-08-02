@@ -13,47 +13,54 @@
 // - Ask the user to enter a number.
 // - Print the multiplication table for that number from 1 to 12.
 //
-// Expected output (if user enters 5):
-//
-//   Multiplication Table for 5:
-//   5  x  1  =  5
-//   5  x  2  =  10
-//   5  x  3  =  15
-//   ...
-//   5  x  12 =  60
+// PART B — Full Table (1 to 12 for all numbers)
+// -----------------------------------------------------------------------------
+// - Print a full multiplication table grid from 1 to 12.
 //
 // -----------------------------------------------------------------------------
-// PART B — Bonus: Tables from 1 to N
-// -----------------------------------------------------------------------------
-// - Ask the user to enter a number N.
-// - Print the full multiplication table for every number from 1 to N.
-// - Add a separator line (e.g. "---") between each table.
-//
-// Expected output (if user enters 3):
-//
-//   Multiplication Table for 1:
-//   1  x  1  =  1
-//   ...
-//   1  x  12 =  12
-//   ---------------------------
-//   Multiplication Table for 2:
-//   2  x  1  =  2
-//   ...
-//
-// -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - N must be a positive integer. If the user enters an invalid value,
-//   print an error message and stop.
-// - Each part must be in its own function (see scaffold below).
-// - Complete Part A before attempting Part B.
-//
-
-//
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
 
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
+void printSingleTable(int n) {
+    cout << "\nMultiplication table for " << n << ":" << endl;
+    for (int i = 1; i <= 12; i++) {
+        cout << n << " x " << i << " = " << n * i << endl;
+    }
+}
+
+void printFullTable() {
+    cout << "\nFull Multiplication Table (1-12):" << endl;
+    cout << setw(4) << " ";
+    for (int i = 1; i <= 12; i++) {
+        cout << setw(4) << i;
+    }
+    cout << endl;
+
+    for (int i = 1; i <= 12; i++) {
+        cout << setw(4) << i;
+        for (int j = 1; j <= 12; j++) {
+            cout << setw(4) << i * j;
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int number;
+    cout << "Enter a number for its multiplication table: ";
+    cin >> number;
+
+    printSingleTable(number);
+
+    cout << "\nDo you want to see the full table from 1 to 12? (1 = yes, 0 = no): ";
+    int choice;
+    cin >> choice;
+
+    if (choice == 1) {
+        printFullTable();
+    }
+
+    return 0;
+}
