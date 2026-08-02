@@ -21,65 +21,137 @@
 //      - Save the student record and confirm it was added.
 //
 //   2. Display All Students
-//      - Print a formatted table showing every student's:
-//          Name, ID, individual scores, and their average score.
-//      - If no students have been added yet, print a message saying so.
+//      - Print a formatted table showing every student's name, ID, and average score.
 //
-//   3. Calculate Average Score for a Specific Student
-//      - Ask the user to enter a student ID.
-//      - Find the student and print their average score.
-//      - If the ID is not found, print an error message.
+//   3. Search for a Student by ID
+//      - Ask the user for a student ID.
+//      - If found, display that student's full details including all scores.
+//      - If not found, print a message saying so.
 //
-//   4. Quit
+//   4. Exit
 //
 // -----------------------------------------------------------------------------
-// HOW THE MENU SHOULD LOOK
-// -----------------------------------------------------------------------------
-//
-//   ================================
-//      STUDENT RECORD SYSTEM MENU
-//   ================================
-//   1. Add student
-//   2. Display all students
-//   3. Calculate average score
-//   4. Quit
-//   Enter your choice (1-4):
-//
-// -----------------------------------------------------------------------------
-// EXPECTED INTERACTION EXAMPLE
-// -----------------------------------------------------------------------------
-//
-//   Enter your choice (1-4): 1
-//   Student name: Alice Mensah
-//   Student ID: 20240001
-//   How many scores? 3
-//   Enter score 1: 78
-//   Enter score 2: 85
-//   Enter score 3: 90
-//   Student "Alice Mensah" added successfully.
-//
-//   Enter your choice (1-4): 3
-//   Enter student ID: 20240001
-//   Alice Mensah's average score: 84.33
-//
-// -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - Define a struct called Student (see scaffold below).
-// - Store all records in a vector<Student>.
-// - Average scores must be rounded to 2 decimal places (use setprecision(2)).
-// - Each feature MUST be in its own function.
-// - Handle invalid menu choices and missing student IDs gracefully.
-//
-
-//
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
 
 #include <iostream>
-#include <vector>
 #include <string>
-#include <iomanip>
+#include <vector>
 using namespace std;
 
+struct Student {
+    string name;
+    int id;
+    vector<double> scores;
+};
+
+const int MAX_STUDENTS = 50;
+Student students[MAX_STUDENTS];
+int studentCount = 0;
+
+double getAverage(Student s) {
+    if (s.scores.empty()) return 0;
+    double sum = 0;
+    for (int i = 0; i < s.scores.size(); i++) {
+        sum += s.scores[i];
+    }
+    return sum / s.scores.size();
+}
+
+void addStudent() {
+    if (studentCount >= MAX_STUDENTS) {
+        cout << "Cannot add more students." << endl;
+        return;
+    }
+
+    Student s;
+    cout << "Enter student name: ";
+    cin.ignore();
+    getline(cin, s.name);
+
+    cout << "Enter student ID: ";
+    cin >> s.id;
+
+    int numScores;
+    cout << "How many scores to enter? ";
+    cin >> numScores;
+
+    for (int i = 0; i < numScores; i++) {
+        double score;
+        cout << "Enter score " << (i + 1) << ": ";
+        cin >> score;
+        s.scores.push_back(score);
+    }
+
+    students[studentCount] = s;
+    studentCount++;
+    cout << "Student added successfully!" << endl;
+}
+
+void displayAllStudents() {
+    if (studentCount == 0) {
+        cout << "No students on record." << endl;
+        return;
+    }
+
+    cout << "\n--- Student Records ---" << endl;
+    cout << "Name\t\t\tID\t\tAverage" << endl;
+    cout << "-----------------------------------------------" << endl;
+    for (int i = 0; i < studentCount; i++) {
+        cout << students[i].name << "\t\t" << students[i].id << "\t\t" << getAverage(students[i]) << endl;
+    }
+}
+
+void searchStudent() {
+    int searchId;
+    cout << "Enter student ID to search: ";
+    cin >> searchId;
+
+    bool found = false;
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].id == searchId) {
+            cout << "\nName: " << students[i].name << endl;
+            cout << "ID: " << students[i].id << endl;
+            cout << "Scores: ";
+            for (int j = 0; j < students[i].scores.size(); j++) {
+                cout << students[i].scores[j];
+                if (j < students[i].scores.size() - 1) cout << ", ";
+            }
+            cout << endl;
+            cout << "Average: " << getAverage(students[i]) << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Student with ID " << searchId << " not found." << endl;
+    }
+}
+
+int main() {
+    int choice;
+    cout << "=== Student Record System ===" << endl;
+
+    do {
+        cout << "\n1. Add Student" << endl;
+        cout << "2. Display All Students" << endl;
+        cout << "3. Search by ID" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            addStudent();
+        } else if (choice == 2) {
+            displayAllStudents();
+        } else if (choice == 3) {
+            searchStudent();
+        } else if (choice == 4) {
+            cout << "Goodbye!" << endl;
+        } else {
+            cout << "Invalid choice." << endl;
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
