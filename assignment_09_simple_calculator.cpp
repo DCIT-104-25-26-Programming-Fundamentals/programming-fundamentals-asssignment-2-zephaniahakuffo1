@@ -17,59 +17,57 @@
 //   4. Division          ( / )    e.g.  10 / 3  =  3.33
 //   5. Modulus           ( % )    e.g.  10 % 3  =  1  (remainder)
 //   6. Exponentiation    ( ^ )    e.g.  2 ^ 8   =  256
-//   7. Quit
+//
+// The calculator should keep running and allow the user to do more
+// calculations until they choose to quit.
 //
 // -----------------------------------------------------------------------------
-// HOW THE MENU SHOULD LOOK
-// -----------------------------------------------------------------------------
-//
-//   ============================
-//        SIMPLE CALCULATOR
-//   ============================
-//   1. Addition
-//   2. Subtraction
-//   3. Multiplication
-//   4. Division
-//   5. Modulus
-//   6. Exponentiation
-//   7. Quit
-//   Select an operation (1-7):
-//
-// -----------------------------------------------------------------------------
-// EXPECTED INTERACTION EXAMPLE
-// -----------------------------------------------------------------------------
-//
-//   Select an operation (1-7): 4
-//   Enter first number : 10
-//   Enter second number: 3
-//   Result: 10 / 3 = 3.33
-//
-//   Select an operation (1-7): 4
-//   Enter first number : 5
-//   Enter second number: 0
-//   Error: Cannot divide by zero.
-//
-//   Select an operation (1-7): 7
-//   Goodbye!
-//
-// -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - Each arithmetic operation MUST be written as its own function.
-// - Use a loop so the calculator keeps running until the user selects Quit.
-// - Division by zero must be caught and handled with a clear error message
-//   (do NOT let the program crash).
-// - Use fixed and setprecision(2) to display results to 2 decimal places.
-// - Handle invalid menu choices gracefully.
-// - For exponentiation use a loop or the pow() function from <cmath>.
-//
-
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
 
 #include <iostream>
-#include <iomanip>
 #include <cmath>
 using namespace std;
 
+double calculate(double a, char op, double b) {
+    if (op == '+') return a + b;
+    if (op == '-') return a - b;
+    if (op == '*') return a * b;
+    if (op == '/') {
+        if (b == 0) {
+            cout << "Error: Division by zero!" << endl;
+            return 0;
+        }
+        return a / b;
+    }
+    if (op == '%') return (int)a % (int)b;
+    if (op == '^') return pow(a, b);
+    return 0;
+}
+
+int main() {
+    cout << "=== Simple Calculator ===" << endl;
+    cout << "Supported operators: + - * / % ^" << endl;
+
+    char again = 'y';
+
+    while (again == 'y' || again == 'Y') {
+        double num1, num2;
+        char op;
+
+        cout << "\nEnter first number: ";
+        cin >> num1;
+        cout << "Enter operator (+, -, *, /, %, ^): ";
+        cin >> op;
+        cout << "Enter second number: ";
+        cin >> num2;
+
+        double result = calculate(num1, op, num2);
+        cout << "Result: " << num1 << " " << op << " " << num2 << " = " << result << endl;
+
+        cout << "Do another calculation? (y/n): ";
+        cin >> again;
+    }
+
+    cout << "Thank you for using the calculator!" << endl;
+
+    return 0;
+}
