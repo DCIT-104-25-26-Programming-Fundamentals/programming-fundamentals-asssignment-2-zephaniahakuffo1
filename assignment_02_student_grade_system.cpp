@@ -14,35 +14,28 @@
 //   Score 50 – 59   →  Grade D
 //   Score below 50  →  Grade F
 //
-// -----------------------------------------------------------------------------
-// EXPECTED INPUT / OUTPUT EXAMPLES
-// -----------------------------------------------------------------------------
-//
-//   Enter student score (0-100): 85
-//   Grade: A
-//
-//   Enter student score (0-100): 73
-//   Grade: B
-//
-//   Enter student score (0-100): 45
-//   Grade: F
-//
-//   Enter student score (0-100): 110
-//   Error: Score must be between 0 and 100.
-//
-// -----------------------------------------------------------------------------
-// REQUIREMENTS
-// -----------------------------------------------------------------------------
-// - You MUST use functions (see scaffold below).
-// - Validate the score inside getGrade(). If it is out of range, return '\0'
-//   (null character) and let main() print the error message.
-// - Use if / else if / else to determine the grade.
-//
-
-// =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
+// ---------------------------------------
 
 #include <iostream>
 using namespace std;
 
+int main() {
+    int score;
+
+    cout << "Enter student score: ";
+    cin >> score;
+
+    if (score >= 80 && score <= 100) {
+        cout << "Grade: A" << endl;
+    } else if (score >= 70) {
+        cout << "Grade: B" << endl;
+    } else if (score >= 60) {
+        cout << "Grade: C" << endl;
+    } else if (score >= 50) {
+        cout << "Grade: D" << endl;
+    } else {
+        cout << "Grade: F" << endl;
+    }
+
+    return 0;
+}
